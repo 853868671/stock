@@ -1,0 +1,18 @@
+{
+    "name":"william/tiger",
+    "description":"金融美股开户",
+    "keywords":["金融","开户"],
+    "license":"MIT",
+    "authors":[
+	{
+	    "name":"王卫东",
+	    "email":"a853868671@gmail.com"
+	}
+    ],
+    "require":{
+	"php":">=5.5.9"
+    },
+    "autoload":{
+	"psr-4":{"Tiger\\":"src/tiger"}
+    }
+}
