@@ -3,6 +3,8 @@
     "description":"金融美股开户",
     "keywords":["金融","开户"],
     "license":"MIT",
+    "homepage":"https://github.com/853868671/stock",
+    "minimum-stability": "dev",
     "authors":[
 	{
 	    "name":"王卫东",
