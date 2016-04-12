@@ -25,6 +25,7 @@ class tigerRequest
 	private $http_url = self::dev_url;
 	private $access_token;
 	private $headers;
+    private $sign;
 
 	public function __construct($access_token,$open=false)
 	{
@@ -95,7 +96,36 @@ class tigerRequest
     	//$params = array('symbol'=>'NTES','action'=>'BUY','quantity'=>1340,'order_type'=>'MKT');
         $url = $this->http_url.self::orders_create;
         $this->getResult($url,$params,true);
-    }                 
+    }
+
+    public function getOrdersPlace($params)
+    {
+        $params['sign'] = $this->sign;
+        $url = $this->http_url.self::orders_place;
+        $this->getResult($url,$params,true);
+    }
+    public function getOrdersCancel($params)
+    {
+        $params['sign'] = $this->sign;
+        $url = $this->http_url.self::orders_place;
+        $this->getResult($url,$params,true);
+    }
+    /***
+    array(
+        'client_id' => $this->client_id,
+        'access_token' => 'token',
+        'order_id' => 3465,
+        'symbol' => 'NTES',
+        'action' => 'BUY',
+        'quantity' => 1000,
+        'order_type' => 'MKT',
+        'return_url' => 'https://',
+    );
+    */
+    private function getSign($params=array())
+    {
+        return $this->sign = helper::RSASign($params);
+    }
 
     private function getResult($url,$params=false,$ispost=false)
     {

@@ -60,4 +60,31 @@ class helper
     	die;
     	
     }	
+    /**
+     * RSA 签名请求
+     * 1.筛选：去除sign和sign_type参数、所有value为空的参数名；
+     * 2.排序：对参数名按照字典序排序（即从左到右按照ASCII字符顺序比较排序）；
+     * 3.拼接：按照排序好的参数名顺序，将参数对按照 ${key}=${value} 的规则拼成字符串，其中value是urlencode之前的值，之后用&符号拼接成字符串；
+     * 4.对3形成的字符串，使用第三方私钥进行 SHA1withRSA 签名，并进行Base64编码，生成sign参数的值。
+     */
+    public function RSASign(array $query) {
+        if (array_key_exists('sign', $query)) {
+                unset($query['sign']);
+        }
+        ksort($query);
+        foreach($query as $k => $v){
+                $s .= $k.'='.$v.'&';
+        }
+        $len = strlen($s) - 1;
+        $str = substr($s, 0, $len);
+        $url = base_path();
+        $priKey = file_get_contents($url.'/public/rsa_private_key.pem');
+        $result = openssl_get_privatekey($priKey);
+        openssl_sign($str, $sign, $result);
+        openssl_free_key($result);
+            //base64编码
+        $sign = base64_encode($sign);
+        return $sign;
+    }
+
 }
